@@ -27,9 +27,9 @@ namespace Rune.Scripts.Spawner
         {
             var spawnedObject = _objectResolver.Instantiate(m_playerGameObject.GameObject);
             _playerTransform = spawnedObject.transform;
-            OnPlayerSpawned.Invoke();
             spawnedObject.transform.position = Vector3.zero;
             _mainPlayerBase = spawnedObject.GetComponent<PlayerBase>();
+            OnPlayerSpawned.Invoke();
         }
 
         public void DeSpawn(IPoolableObject poolableObject)

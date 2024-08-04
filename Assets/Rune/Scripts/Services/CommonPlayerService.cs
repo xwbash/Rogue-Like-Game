@@ -26,6 +26,7 @@ namespace Rune.Scripts.Services
         {
             _enemySpawner.SetPlayerTransform(_playerSpawner.GetTransform());
             _enemyService.SetPlayerTransform(_playerSpawner.GetTransform());
+            _enemyService.SetPlayerBase(_playerSpawner.GetPlayerBase());
         }
 
         public PlayerBase GetClosestEnemy()

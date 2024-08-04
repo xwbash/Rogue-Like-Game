@@ -1,5 +1,6 @@
 using Rune.Scripts.Base;
 using Rune.Scripts.Data;
+using Rune.Scripts.Gameplay.Character_Related;
 using Rune.Scripts.Services;
 using UnityEngine;
 using VContainer;
@@ -13,6 +14,7 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         private float _shootingCooldown;
         private BulletService _bulletService;
         private PlayerBase _closestEnemy = null;
+        private PlayerBase _currentPlayerBase;
         
         [Inject]
         private void Construct(CommonPlayerService commonPlayerService, BulletService bulletService)
@@ -21,9 +23,10 @@ namespace Rune.Scripts.Gameplay.Guns_Related
             _commonPlayerService = commonPlayerService;
         }
         
-        public override void Init(WeaponData weaponData)
+        public override void Init(WeaponData weaponData, PlayerBase player)
         {
             _weaponData = weaponData;
+            _currentPlayerBase = player;
         }
 
         private void Update()
@@ -51,11 +54,11 @@ namespace Rune.Scripts.Gameplay.Guns_Related
             ProjectileData projectileData = new ProjectileData();
             projectileData.Speed = _weaponData.BulletSpeed;
             projectileData.StartPoint = startPosition;
-            projectileData.EndPoint = targetPosition;
+            projectileData.EndPoint = new Vector3(targetPosition.x, 1, targetPosition.z);
 
 
             var projectile = (Projectile)_bulletService.GetBullet(ProjectileType.Bullet);
-            projectile.Init(projectileData, OnBulletHit, _closestEnemy);
+            projectile.Init(projectileData, _weaponData.Damage, _currentPlayerBase);
         }
 
         private void OnBulletHit(PlayerBase enemy)

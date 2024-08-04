@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5061153408302918615}
   - component: {fileID: 6789099997881829095}
   - component: {fileID: 5092392867437479272}
+  - component: {fileID: 4426152882375237098}
   m_Layer: 0
   m_Name: RangedEnemy
   m_TagString: Untagged
@@ -34,6 +35,7 @@ Transform:
   - {fileID: 6817409409152658475}
   - {fileID: 1527111499987656298}
   - {fileID: 6866270929517826121}
+  - {fileID: 6510409451699219081}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6789099997881829095
@@ -53,6 +55,8 @@ MonoBehaviour:
     Speed: 2
     Damage: 10
     Range: 10
+    PlayerType: 1
+  m_progressBarParent: {fileID: 6510409451699219081}
   m_gunParentTransform: {fileID: 6866270929517826121}
   m_gunObject: {fileID: 4908643469378468415, guid: 0740be7b84cef1345878121aee872ead, type: 3}
 --- !u!195 &5092392867437479272
@@ -77,6 +81,27 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!65 &4426152882375237098
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671479520795708561}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.0975368, z: 1}
+  m_Center: {x: 0, y: 1.0965647, z: 0}
 --- !u!1 &2914054097919377547
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +197,6 @@ GameObject:
   - component: {fileID: 6817409409152658475}
   - component: {fileID: 4398921414443765635}
   - component: {fileID: 8253649281211769412}
-  - component: {fileID: 9098744928087580562}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -245,29 +269,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &9098744928087580562
-CapsuleCollider:
+--- !u!1 &3648125826018832470
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3092825234229801761}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6510409451699219081}
+  m_Layer: 0
+  m_Name: ProgressBarParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6510409451699219081
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3648125826018832470}
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5061153408302918615}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6993576078280701239
 GameObject:
   m_ObjectHideFlags: 0

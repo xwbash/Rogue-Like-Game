@@ -37,15 +37,16 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         private PoolingService _poolingService;
         private bool _isObjectActive = true;
         private ProjectileData _projectileData;
-        private UnityEvent<PlayerBase> _onBulletHit = new UnityEvent<PlayerBase>();
-        private PlayerBase _enemyHit;
-        public void Init(ProjectileData projectileData, UnityAction<PlayerBase> onBulletHit,
-            PlayerBase closestEnemy)
+        private float _timer = 3.0f;
+        private int _weaponDamage;
+        private PlayerBase _currentPlayerBase;
+        
+        public void Init(ProjectileData projectileData, int weaponDamage, PlayerBase currentPlayerBase)
         {
-            _enemyHit = closestEnemy;
+            _currentPlayerBase = currentPlayerBase;
             _projectileData = projectileData;
             transform.position = projectileData.StartPoint;
-            _onBulletHit.AddListener(onBulletHit);
+            _weaponDamage = weaponDamage;
         }
 
         private void Start()
@@ -62,14 +63,12 @@ namespace Rune.Scripts.Gameplay.Guns_Related
 
             Vector3 direction = (_projectileData.EndPoint - _projectileData.StartPoint).normalized;
             _rigidbody.velocity = direction * _projectileData.Speed;
+            _timer -= Time.deltaTime;
             
-            if (Vector3.Distance(transform.position, _projectileData.EndPoint) < 1.0f)
+            if (_timer <= 0)
             {
-                RemoveObject();
-                
-                //OnBulletReached();   
+                RemoveObject(); 
             }
-            // to-do bullet hit.
         }
         
         
@@ -96,15 +95,15 @@ namespace Rune.Scripts.Gameplay.Guns_Related
 
         public void OnBulletReached()
         {
-            _onBulletHit.Invoke(_enemyHit);
             RemoveObject();
         }
         
         public void RemoveObject()
         {
             _poolingService.RemoveObject(this);
-            _onBulletHit.RemoveAllListeners();
             _projectileData = null;
+            _currentPlayerBase = null;
+            _timer = 3.0f;
         }
 
         public void SetSpawnPoint(Vector3 spawnPoint)
@@ -125,6 +124,22 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         public Vector3 GetPosition()
         {
             return transform.position;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            var playerBase = other.GetComponent<PlayerBase>();
+            if (!playerBase)
+            {
+                return;
+            }
+            
+            
+            if (playerBase != _currentPlayerBase && playerBase.GetPlayerType() != _currentPlayerBase.GetPlayerType())
+            {
+                playerBase.HitEnemy(_weaponDamage);
+                RemoveObject();
+            }
         }
     }
 }

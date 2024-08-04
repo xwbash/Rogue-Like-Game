@@ -9,6 +9,7 @@ namespace Rune.Scripts.Gameplay
 {
     public class CharacterController : MonoBehaviour
     {
+        [SerializeField] private ParticleSystem m_particleSystem;
         [SerializeField] private float m_playerSpeed;
         [SerializeField] private float m_playerRotationSpeed;
         [SerializeField] private Transform m_rotationTransform;
@@ -45,6 +46,14 @@ namespace Rune.Scripts.Gameplay
         {
             var horizontal = inputData.Horizontal;
             var vertical  = inputData.Vertical;
+
+            if (horizontal != 0 || vertical != 0)
+            {
+                if (!m_particleSystem.isPlaying)
+                {
+                    m_particleSystem.Play();
+                }
+            }
             
             _rigidBody.velocity = new Vector3(horizontal * m_playerSpeed, 0, vertical * m_playerSpeed);
             

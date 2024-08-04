@@ -13,7 +13,9 @@ namespace Rune.Scripts.Scopes
     {
         [SerializeField] private CinemachineVirtualCamera m_playerCinemachine;
         [SerializeField] private Joystick m_joyStick;
-        
+
+        [SerializeField] private GameObject m_progressBarGameObject;
+        [SerializeField] private GameObject m_hitLabelGameObject;
         [SerializeField] private PlayerSpawner m_playerSpawner;
         [SerializeField] private EnemySpawner m_enemySpawner;
         
@@ -26,8 +28,11 @@ namespace Rune.Scripts.Scopes
 
             // POOL - POOL OBJECTS
             builder.RegisterEntryPoint<BulletService>(Lifetime.Singleton).WithParameter(m_bulletGameObject).AsSelf();
+            builder.RegisterEntryPoint<HitLabelService>(Lifetime.Singleton).WithParameter(m_hitLabelGameObject).AsSelf();
             builder.Register<EnemyService>(Lifetime.Singleton);
+            builder.RegisterEntryPoint<ExperimentService>(Lifetime.Singleton);
             builder.Register<PoolingFactory>(Lifetime.Singleton);
+            builder.Register<ProgressbarService>(Lifetime.Singleton).WithParameter(m_progressBarGameObject);
 
             // OTHERS
             builder.Register<GameCycleService>(Lifetime.Singleton);

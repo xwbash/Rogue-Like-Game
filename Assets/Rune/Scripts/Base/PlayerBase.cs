@@ -10,6 +10,7 @@ namespace Rune.Scripts.Base
         public float Speed;
         public int Damage;
         public int Range;
+        public PlayerType PlayerType;
     }
     
     [Serializable]
@@ -18,12 +19,24 @@ namespace Rune.Scripts.Base
         public PlayerData PlayerData;
         public GameObject GameObject;
     }
+
+    public enum PlayerType
+    {
+        Player,
+        Enemy
+    }
     
     public abstract class PlayerBase : MonoBehaviour
     {
         public PlayerData PlayerData;
+        
         public abstract void OnDead();
 
         public abstract void HitEnemy(int weaponDamage);
+
+        public PlayerType GetPlayerType()
+        {
+            return PlayerData.PlayerType;
+        }
     }
 }

@@ -1,5 +1,7 @@
 using Rune.Scripts.Base;
 using Rune.Scripts.Data;
+using Rune.Scripts.Services;
+using Rune.Scripts.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -10,7 +12,7 @@ namespace Rune.Scripts.Gameplay.Character_Related
     {
         [SerializeField] private Transform m_gunParentTransform;
         [SerializeField] private GameObject m_gunObject;
-        
+
         private IObjectResolver _objectResolver;
         private WeaponBase _spawnedWeaponBase;
         
@@ -22,6 +24,7 @@ namespace Rune.Scripts.Gameplay.Character_Related
         
         public override void OnStart()
         {
+            IsOverrided = true;
             var spawnedGunObject = _objectResolver.Instantiate(m_gunObject);
             spawnedGunObject.transform.SetParent(m_gunParentTransform, false);
             _spawnedWeaponBase = spawnedGunObject.GetComponent<WeaponBase>();
@@ -32,7 +35,7 @@ namespace Rune.Scripts.Gameplay.Character_Related
             weaponData.Range = PlayerData.Range;
             weaponData.Cooldown = 1f;
             
-            _spawnedWeaponBase.Init(weaponData);
+            _spawnedWeaponBase.Init(weaponData, this);
         }
     }
 }

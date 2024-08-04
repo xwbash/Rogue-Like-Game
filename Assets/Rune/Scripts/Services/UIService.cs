@@ -4,6 +4,16 @@ namespace Rune.Scripts.Services
 {
     public class UIService 
     {
+        public UIService()
+        {
+            
+        }
         
+        
+
+        public void ShowCards()
+        {
+            
+        }
     }
 }
