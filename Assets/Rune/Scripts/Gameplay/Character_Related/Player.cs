@@ -19,10 +19,12 @@ namespace Rune.Scripts.Gameplay.Character_Related
         private HitLabelService _hitLabelService;
         private ProgressBarController _progressBarController;
         private int _currentHealth = 0;
-        
+        private PlayerService _playerService;
+
         [Inject]
-        private void Construct(IObjectResolver objectResolver, ProgressbarService progressbarService, HitLabelService hitLabelService)
+        private void Construct(IObjectResolver objectResolver, ProgressbarService progressbarService, HitLabelService hitLabelService, PlayerService playerService)
         {
+            _playerService = playerService;
             _objectResolver = objectResolver;
             _progressBarController = progressbarService.GetProgressBar(m_progressBarParent);
             _hitLabelService = hitLabelService;
@@ -47,7 +49,7 @@ namespace Rune.Scripts.Gameplay.Character_Related
 
         public override void OnDead()
         {
-            
+            _playerService.OnPlayerDead();
         }
 
         public override void HitEnemy(int weaponDamage)

@@ -16,14 +16,16 @@ namespace Rune.Scripts.Services
         private bool _isPlayerCanSpawnable = true;
         private CameraService _cameraService;
         private EnemyService _enemyService;
-        
+        private GameCycleService _gameCycleService;
+
         public Transform GetPlayerTransform() => _playerTransform;
 
         [Inject]
-        public PlayerService(PlayerSpawner playerSpawner, CameraService cameraService)
+        public PlayerService(PlayerSpawner playerSpawner, CameraService cameraService, GameCycleService gameCycleService)
         {
             _playerSpawner = playerSpawner;
             _cameraService = cameraService;
+            _gameCycleService = gameCycleService;
         }
         
         public void Start()
@@ -39,6 +41,10 @@ namespace Rune.Scripts.Services
             _cameraService.UpdateCamera(_playerTransform);
         }
 
-
+        public void OnPlayerDead()
+        {
+            _gameCycleService.OnPlayerDead();
+        }
+       
     }
 }

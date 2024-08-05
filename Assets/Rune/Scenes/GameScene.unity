@@ -723,7 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
-    TypeName: 
+    TypeName: Rune.Scripts.Scopes.MenuLifeTimeScope
   autoRun: 1
   autoInjectGameObjects: []
   m_playerCinemachine: {fileID: 730557502}
