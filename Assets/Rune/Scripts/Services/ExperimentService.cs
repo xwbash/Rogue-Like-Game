@@ -6,8 +6,18 @@ namespace Rune.Scripts.Services
     {
         private int _currentExperiment;
 
-        
         public void Start()
+        {
+            
+        }
+
+        public void AddExperiment(int playerDataExperimentAmount)
+        {
+            _currentExperiment += playerDataExperimentAmount;
+            OnExperimentUpdated();
+        }
+
+        private void OnExperimentUpdated()
         {
             
         }

@@ -30,7 +30,7 @@ namespace Rune.Scripts.Scopes
             builder.RegisterEntryPoint<BulletService>(Lifetime.Singleton).WithParameter(m_bulletGameObject).AsSelf();
             builder.RegisterEntryPoint<HitLabelService>(Lifetime.Singleton).WithParameter(m_hitLabelGameObject).AsSelf();
             builder.Register<EnemyService>(Lifetime.Singleton);
-            builder.RegisterEntryPoint<ExperimentService>(Lifetime.Singleton);
+            builder.RegisterEntryPoint<ExperimentService>(Lifetime.Singleton).AsSelf();
             builder.Register<PoolingFactory>(Lifetime.Singleton);
             builder.Register<ProgressbarService>(Lifetime.Singleton).WithParameter(m_progressBarGameObject);
 

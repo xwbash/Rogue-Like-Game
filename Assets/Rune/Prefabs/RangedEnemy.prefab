@@ -56,6 +56,7 @@ MonoBehaviour:
     Damage: 10
     Range: 10
     PlayerType: 1
+    ExperimentAmount: 5
   m_progressBarParent: {fileID: 6510409451699219081}
   m_gunParentTransform: {fileID: 6866270929517826121}
   m_gunObject: {fileID: 4908643469378468415, guid: 0740be7b84cef1345878121aee872ead, type: 3}

@@ -98,6 +98,7 @@ MonoBehaviour:
     Damage: 5
     Range: 2
     PlayerType: 1
+    ExperimentAmount: 3
   m_progressBarParent: {fileID: 8637279801976807587}
 --- !u!1 &2914054097919377547
 GameObject:

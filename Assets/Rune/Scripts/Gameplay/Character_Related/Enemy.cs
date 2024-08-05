@@ -28,10 +28,12 @@ namespace Rune.Scripts.Gameplay.Character_Related
         private ProgressBarController _progressBarController;
         private PlayerBase _playerBase;
         private int _currentHealth = 0;
-        
+        private ExperimentService _experimentService;
+
         [Inject]
-        private void Construct(EnemyService enemyService, ProgressbarService progressbarService, HitLabelService hitLabelService)
+        private void Construct(EnemyService enemyService, ProgressbarService progressbarService, HitLabelService hitLabelService, ExperimentService experimentService)
         {
+            _experimentService = experimentService;
             _enemyService = enemyService;
             _progressBarController = progressbarService.GetProgressBar(m_progressBarParent);
             _hitLabelService = hitLabelService;
@@ -118,6 +120,7 @@ namespace Rune.Scripts.Gameplay.Character_Related
 
         public void RemoveObject()
         {
+            _experimentService.AddExperiment(PlayerData.ExperimentAmount);
             _enemySpawner.DeSpawn(this);
         }
 

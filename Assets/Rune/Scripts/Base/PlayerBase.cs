@@ -11,6 +11,7 @@ namespace Rune.Scripts.Base
         public int Damage;
         public int Range;
         public PlayerType PlayerType;
+        public int ExperimentAmount;
     }
     
     [Serializable]
