@@ -31,8 +31,6 @@ namespace Rune.Scripts.Gameplay.Guns_Related
     
     public class Projectile : MonoBehaviour, IPoolableObject
     {
-        [Inject] private BulletService _bulletService;
-
         private Rigidbody _rigidbody;
         private PoolingService _poolingService;
         private bool _isObjectActive = true;
@@ -40,6 +38,16 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         private float _timer = 3.0f;
         private int _weaponDamage;
         private PlayerBase _currentPlayerBase;
+        private BulletService _bulletService;
+        private GameCycleService _gameCycleService;
+        private bool _isGamePaused = false;
+
+        [Inject]
+        private void Construct(GameCycleService gameCycleService, BulletService bulletService)
+        {
+            _bulletService = bulletService;
+            _gameCycleService = gameCycleService;
+        }
         
         public void Init(ProjectileData projectileData, int weaponDamage, PlayerBase currentPlayerBase)
         {
@@ -48,14 +56,38 @@ namespace Rune.Scripts.Gameplay.Guns_Related
             transform.position = projectileData.StartPoint;
             _weaponDamage = weaponDamage;
         }
+        
+        private void OnEnable()
+        {
+            _gameCycleService.OnGamePaused.AddListener(OnGamePaused);
+            _gameCycleService.OnGameContinued.AddListener(OnGameContinued);
+        }
+
+        private void OnDisable()
+        {
+            _gameCycleService.OnGamePaused.RemoveListener(OnGamePaused);
+            _gameCycleService.OnGameContinued.RemoveListener(OnGameContinued);
+        }
 
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
         }
+        
+        private void OnGamePaused()
+        {
+            _isGamePaused = false;
+        }
+
+        private void OnGameContinued()
+        {
+            _isGamePaused = true;
+        }
 
         private void FixedUpdate()
         {
+            if(_isGamePaused) return;
+            
             if (_projectileData == null)
             {
                 return;

@@ -13,27 +13,44 @@ namespace Rune.Scripts.Gameplay
         [SerializeField] private float m_playerSpeed;
         [SerializeField] private float m_playerRotationSpeed;
         [SerializeField] private Transform m_rotationTransform;
-        
+
+        private bool _isGamePaused = false;
         private InputService _inputService;
         private Rigidbody _rigidBody;
         private CommonPlayerService _commonPlayerService;
         private PlayerData _playerData;
+        private GameCycleService _gameCycleService;
         
         [Inject]
-        private void Construct(InputService inputService, CommonPlayerService commonPlayerService)
+        private void Construct(InputService inputService, CommonPlayerService commonPlayerService, GameCycleService gameCycleService)
         {
+            _gameCycleService = gameCycleService;
             _inputService = inputService;
             _commonPlayerService = commonPlayerService;
         }
 
         private void OnEnable()
         {
+            _gameCycleService.OnGamePaused.AddListener(OnGamePaused);
+            _gameCycleService.OnGameContinued.AddListener(OnGameContinued);
             _inputService.AddListener(OnPlayerMove);
         }
         
         private void OnDisable()
         {
+            _gameCycleService.OnGamePaused.RemoveListener(OnGamePaused);
+            _gameCycleService.OnGameContinued.RemoveListener(OnGameContinued);
             _inputService.RemoveListener(OnPlayerMove);
+        }
+
+        private void OnGamePaused()
+        {
+            _isGamePaused = true;
+        }
+
+        private void OnGameContinued()
+        {
+            _isGamePaused = false;
         }
         
         private void Start()
@@ -44,6 +61,7 @@ namespace Rune.Scripts.Gameplay
         
         private void OnPlayerMove(InputData inputData)
         {
+            if (_isGamePaused) return;
             var horizontal = inputData.Horizontal;
             var vertical  = inputData.Vertical;
 

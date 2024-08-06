@@ -15,10 +15,13 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         private BulletService _bulletService;
         private PlayerBase _closestEnemy = null;
         private PlayerBase _currentPlayerBase;
+        private GameCycleService _gameCycleService;
+        private bool _isGamePaused = false;
         
         [Inject]
-        private void Construct(CommonPlayerService commonPlayerService, BulletService bulletService)
+        private void Construct(CommonPlayerService commonPlayerService, BulletService bulletService, GameCycleService gameCycleService)
         {
+            _gameCycleService = gameCycleService;
             _bulletService = bulletService;
             _commonPlayerService = commonPlayerService;
         }
@@ -29,8 +32,21 @@ namespace Rune.Scripts.Gameplay.Guns_Related
             _currentPlayerBase = player;
         }
 
+        private void OnGameContinued()
+        {
+            _isGamePaused = false;
+        }
+
+        private void OnGamePaused()
+        {
+            _isGamePaused = true;
+        }
+        
         private void Update()
         {
+            if(_isGamePaused) return;
+
+            
             _shootingCooldown -= Time.deltaTime;
             if(_shootingCooldown > 0) return;
             

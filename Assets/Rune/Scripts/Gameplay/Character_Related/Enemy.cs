@@ -15,7 +15,8 @@ namespace Rune.Scripts.Gameplay.Character_Related
         protected bool IsOverrided = false;
 
         [SerializeField] private Transform m_progressBarParent;
-       
+
+        private bool _isGamePaused = false;
         private float _shootingCooldown = 0.0f;
         private float _attackCooldown = 2.0f;
         private HitLabelService _hitLabelService;
@@ -29,15 +30,40 @@ namespace Rune.Scripts.Gameplay.Character_Related
         private PlayerBase _playerBase;
         private int _currentHealth = 0;
         private ExperimentService _experimentService;
+        private GameCycleService _gameCycleService;
 
         [Inject]
-        private void Construct(EnemyService enemyService, ProgressbarService progressbarService, HitLabelService hitLabelService, ExperimentService experimentService)
+        private void Construct(EnemyService enemyService, ProgressbarService progressbarService, HitLabelService hitLabelService, ExperimentService experimentService, GameCycleService gameCycleService)
         {
+            _gameCycleService = gameCycleService;
             _experimentService = experimentService;
             _enemyService = enemyService;
             _progressBarController = progressbarService.GetProgressBar(m_progressBarParent);
             _hitLabelService = hitLabelService;
         }
+
+        private void OnEnable()
+        {
+            _gameCycleService.OnGamePaused.AddListener(OnGamePaused);
+            _gameCycleService.OnGameContinued.AddListener(OnGameContinued);
+        }
+
+        private void OnDisable()
+        {
+            _gameCycleService.OnGamePaused.RemoveListener(OnGamePaused);
+            _gameCycleService.OnGameContinued.RemoveListener(OnGameContinued);
+        }
+
+        private void OnGameContinued()
+        {
+            _isGamePaused = true;
+        }
+
+        private void OnGamePaused()
+        {
+            _isGamePaused = false;
+        }
+
         public override void OnDead()
         {
             RemoveObject();
@@ -79,6 +105,8 @@ namespace Rune.Scripts.Gameplay.Character_Related
 
         private void Update()
         {
+            if(_isGamePaused) return;
+            
             if (!IsOverrided)
             {
                 _shootingCooldown -= Time.deltaTime;

@@ -16,7 +16,9 @@ namespace Rune.Scripts.Scopes
             builder.RegisterComponent(m_mainUIController);
             
             builder.Register<UIService>(Lifetime.Singleton);
+            builder.RegisterEntryPoint<ExperimentService>(Lifetime.Singleton).AsSelf();
             builder.Register<SceneService>(Lifetime.Singleton);
+            builder.Register<GameCycleService>(Lifetime.Singleton);
         }
     }
 }

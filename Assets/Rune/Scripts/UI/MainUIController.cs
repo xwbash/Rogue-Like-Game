@@ -9,6 +9,7 @@ namespace Rune.Scripts.UI
 {
     public class MainUIController : MonoBehaviour, IUIObject
     {
+        [SerializeField] private CardsUIController m_cardsUIController;
         [SerializeField] private Button m_startGameButton;
         private CanvasGroup _canvasGroup;
         private SceneService _sceneService;
@@ -59,6 +60,11 @@ namespace Rune.Scripts.UI
         {
             _sceneService.ShowGameScene();
             HideUI();
+        }
+
+        public void ShowCards()
+        {
+            m_cardsUIController.ShowUI();
         }
     }
 }

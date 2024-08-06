@@ -17,7 +17,7 @@ namespace Rune.Scripts.Services
         
         public void ShowCards()
         {
-            
+            _mainUIController.ShowCards();
         }
 
         public void OnLost()
