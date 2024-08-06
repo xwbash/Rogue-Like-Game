@@ -31,10 +31,12 @@ namespace Rune.Scripts.Gameplay.Character_Related
         private int _currentHealth = 0;
         private ExperimentService _experimentService;
         private GameCycleService _gameCycleService;
+        private AbilityService _abilityService;
 
         [Inject]
-        private void Construct(EnemyService enemyService, ProgressbarService progressbarService, HitLabelService hitLabelService, ExperimentService experimentService, GameCycleService gameCycleService)
+        private void Construct(EnemyService enemyService, ProgressbarService progressbarService, HitLabelService hitLabelService, ExperimentService experimentService, GameCycleService gameCycleService, AbilityService abilityService)
         {
+            _abilityService = abilityService;
             _gameCycleService = gameCycleService;
             _experimentService = experimentService;
             _enemyService = enemyService;
@@ -44,24 +46,40 @@ namespace Rune.Scripts.Gameplay.Character_Related
 
         private void OnEnable()
         {
+            _isGamePaused = _gameCycleService.IsGamePaused();
             _gameCycleService.OnGamePaused.AddListener(OnGamePaused);
             _gameCycleService.OnGameContinued.AddListener(OnGameContinued);
+            _abilityService.OnAbilitySelected.AddListener(OnAbilityUpdate);   
         }
 
         private void OnDisable()
         {
+            _abilityService.OnAbilitySelected.RemoveListener(OnAbilityUpdate);
             _gameCycleService.OnGamePaused.RemoveListener(OnGamePaused);
             _gameCycleService.OnGameContinued.RemoveListener(OnGameContinued);
         }
 
+        private void OnAbilityUpdate(CardData cardData)
+        {
+            if (cardData.EnemySpeedDecreasePercentage > 0)
+            {
+                _playerBase.PlayerData.Speed -= (int)(_playerBase.PlayerData.Speed * cardData.Speed);
+            }
+
+            if (cardData.ExperimentAmount > 0)
+            {
+                _playerBase.PlayerData.ExperimentAmount += (int)(_playerBase.PlayerData.ExperimentAmount * cardData.ExperimentAmount);
+            }
+        }
+
         private void OnGameContinued()
         {
-            _isGamePaused = true;
+            _isGamePaused = false;
         }
 
         private void OnGamePaused()
         {
-            _isGamePaused = false;
+            _isGamePaused = true;
         }
 
         public override void OnDead()
@@ -105,7 +123,15 @@ namespace Rune.Scripts.Gameplay.Character_Related
 
         private void Update()
         {
-            if(_isGamePaused) return;
+            if(_isGamePaused)
+            {
+                _navMeshAgent.isStopped = true;
+                return;
+            }
+            else
+            {
+                _navMeshAgent.isStopped = false;
+            }
             
             if (!IsOverrided)
             {

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Rune.Scripts.Interfaces;
 using Rune.Scripts.Services;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
+using VContainer.Unity;
 
 namespace Rune.Scripts.UI
 {
@@ -16,18 +18,25 @@ namespace Rune.Scripts.UI
 
         private ExperimentService _experimentService;
         private List<SelectionCard> _cardsList = new List<SelectionCard>();
+        private AbilityService _abilityService;
+        private IObjectResolver _objectResolver;
 
         [Inject]
-        private void Construct(ExperimentService experimentService)
+        private void Construct(ExperimentService experimentService, AbilityService abilityService, IObjectResolver objectResolver)
         {
+            _objectResolver = objectResolver;
             _experimentService = experimentService;
+            _abilityService = abilityService;
         }
         
         private void Start()
         {
-            for (int i = 0; i < 3; i++)
+            
+            var cardAbilites = _abilityService.GetNewCardData();
+            
+            for (int i = 0; i < cardAbilites.Count; i++)
             {
-                var cardGameObject = Instantiate(m_cardGameObject, transform, false);
+                var cardGameObject = _objectResolver.Instantiate(m_cardGameObject, transform, false);
 
                 var selectionCard = cardGameObject.GetComponent<SelectionCard>();
 
@@ -36,24 +45,34 @@ namespace Rune.Scripts.UI
                     throw new ArgumentException("Kartlarda selection card yok");
                 }
                 
-                selectionCard.Init(m_startTransform, m_endTransform);
+                selectionCard.Init(m_startTransform, m_endTransform, OnCardSelected);
+                selectionCard.SetCardData(cardAbilites[i]);
                 selectionCard.HideUI();
                 _cardsList.Add(selectionCard);    
             }
         }
 
+        public void OnCardSelected()
+        {
+            HideUI();
+        }
+
         public void ShowUI()
         {
             _experimentService.PauseGame();
-            foreach (var card in _cardsList)
+            var cardAbilities = _abilityService.GetNewCardData();
+            
+            for (int i = 0; i < _cardsList.Count; i++)
             {
-                card.ShowUI();
+                _cardsList[i].SetCardData(cardAbilities[i]);
+                _cardsList[i].ShowUI();
             }
         }
 
         public void HideUI()
         {
             _experimentService.ContinueGame();
+            
             foreach (var card in _cardsList)
             {
                 card.HideUI();

@@ -2,6 +2,7 @@ using Rune.Scripts.Base;
 using Rune.Scripts.Data;
 using Rune.Scripts.Gameplay.Character_Related;
 using Rune.Scripts.Services;
+using Rune.Scripts.UI;
 using UnityEngine;
 using VContainer;
 
@@ -17,10 +18,12 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         private PlayerBase _currentPlayerBase;
         private GameCycleService _gameCycleService;
         private bool _isGamePaused = false;
-        
+        private AbilityService _abilityService;
+
         [Inject]
-        private void Construct(CommonPlayerService commonPlayerService, BulletService bulletService, GameCycleService gameCycleService)
+        private void Construct(CommonPlayerService commonPlayerService, BulletService bulletService, GameCycleService gameCycleService, AbilityService abilityService)
         {
+            _abilityService = abilityService;
             _gameCycleService = gameCycleService;
             _bulletService = bulletService;
             _commonPlayerService = commonPlayerService;
@@ -30,6 +33,43 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         {
             _weaponData = weaponData;
             _currentPlayerBase = player;
+        }
+        
+        private void OnEnable()
+        {
+            _abilityService.OnAbilitySelected.AddListener(OnAbilitySelected);
+            _gameCycleService.OnGamePaused.AddListener(OnGamePaused);
+            _gameCycleService.OnGameContinued.AddListener(OnGameContinued);
+        }
+        
+        private void OnDisable()
+        {
+            _abilityService.OnAbilitySelected.RemoveListener(OnAbilitySelected);
+            _gameCycleService.OnGamePaused.RemoveListener(OnGamePaused);
+            _gameCycleService.OnGameContinued.RemoveListener(OnGameContinued);
+        }
+
+        private void OnAbilitySelected(CardData cardData)
+        {
+            if (cardData.BulletSpeed > 0)
+            {
+                _weaponData.BulletSpeed += cardData.BulletSpeed;
+            }
+
+            if (cardData.GunSpeed > 0)
+            {
+                _weaponData.Cooldown += cardData.GunSpeed;
+            }
+
+            if (cardData.Damage > 0)
+            {
+                _weaponData.Damage += cardData.Damage;
+            }
+            
+            if (cardData.Range > 0)
+            {
+                _weaponData.Range += cardData.Range;
+            }
         }
 
         private void OnGameContinued()

@@ -19,6 +19,7 @@ namespace Rune.Scripts.Scopes
             builder.RegisterEntryPoint<ExperimentService>(Lifetime.Singleton).AsSelf();
             builder.Register<SceneService>(Lifetime.Singleton);
             builder.Register<GameCycleService>(Lifetime.Singleton);
+            builder.Register<AbilityService>(Lifetime.Singleton);
         }
     }
 }

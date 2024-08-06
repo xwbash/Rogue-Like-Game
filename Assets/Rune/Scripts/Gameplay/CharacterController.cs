@@ -61,7 +61,11 @@ namespace Rune.Scripts.Gameplay
         
         private void OnPlayerMove(InputData inputData)
         {
-            if (_isGamePaused) return;
+            if (_isGamePaused)
+            {
+                _rigidBody.velocity = Vector3.zero;
+                return;
+            }
             var horizontal = inputData.Horizontal;
             var vertical  = inputData.Vertical;
 

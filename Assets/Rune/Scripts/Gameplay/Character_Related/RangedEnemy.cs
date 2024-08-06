@@ -13,6 +13,9 @@ namespace Rune.Scripts.Gameplay.Character_Related
         [SerializeField] private Transform m_gunParentTransform;
         [SerializeField] private GameObject m_gunObject;
 
+        
+        private float _gunCooldown = 1f;
+        private float _bulletSpeed = 20f;
         private IObjectResolver _objectResolver;
         private WeaponBase _spawnedWeaponBase;
         
@@ -30,12 +33,17 @@ namespace Rune.Scripts.Gameplay.Character_Related
             _spawnedWeaponBase = spawnedGunObject.GetComponent<WeaponBase>();
 
             WeaponData weaponData = new WeaponData();
-            weaponData.BulletSpeed = 10f;
+            weaponData.BulletSpeed = _bulletSpeed;
             weaponData.Damage = PlayerData.Damage;
             weaponData.Range = PlayerData.Range;
-            weaponData.Cooldown = 1f;
+            weaponData.Cooldown = _gunCooldown;
             
             _spawnedWeaponBase.Init(weaponData, this);
+        }
+
+        private void OnAbilityUpdate(CardData cardData)
+        {
+            
         }
     }
 }

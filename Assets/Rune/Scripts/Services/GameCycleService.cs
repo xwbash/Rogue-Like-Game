@@ -8,6 +8,7 @@ namespace Rune.Scripts.Services
         public UnityEvent OnGamePaused = new UnityEvent();
         public UnityEvent OnGameContinued = new UnityEvent();
         private UIService _uiService;
+        private bool _isGamePaused = false;
         
         [Inject]
         public GameCycleService(UIService uiService)
@@ -22,12 +23,19 @@ namespace Rune.Scripts.Services
 
         public void ContinueGame()
         {
+            _isGamePaused = false;
             OnGameContinued.Invoke();
         }
 
         public void PauseGame()
         {
+            _isGamePaused = true;
             OnGamePaused.Invoke();
+        }
+
+        public bool IsGamePaused()
+        {
+            return _isGamePaused;
         }
     }
 }
