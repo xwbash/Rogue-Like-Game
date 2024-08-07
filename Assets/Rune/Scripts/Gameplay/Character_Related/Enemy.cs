@@ -21,7 +21,6 @@ namespace Rune.Scripts.Gameplay.Character_Related
         protected EntityBase EntityBase;
         protected float ShootingCooldown;
         protected float AttackCooldown;
-        protected int ExperimentAmount;
 
         private bool _isGamePaused = false;
         private bool _isObjectActive = true;
@@ -174,7 +173,8 @@ namespace Rune.Scripts.Gameplay.Character_Related
 
         public void OnObjectSpawned()
         {
-            transform.DOScale(Vector3.one, 0.25f).OnComplete(() =>
+            transform.localScale = Vector3.zero;
+            transform.DOScale(Vector3.one, 0.35f).OnComplete(() =>
             {
                 _currentHealth = m_enemyData.baseStats.Health;
                 _progressBarController.SetProgressBar(0, m_enemyData.baseStats.Health, _currentHealth);
