@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5061153408302918615}
   - component: {fileID: 202708043483515610}
   - component: {fileID: 5276994717231691817}
-  - component: {fileID: 8870738843495838327}
+  - component: {fileID: 4403724498393917305}
   m_Layer: 0
   m_Name: SlowEnemy
   m_TagString: Untagged
@@ -80,7 +80,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.6674461, z: 1}
   m_Center: {x: 0, y: 1.4078994, z: 0}
---- !u!114 &8870738843495838327
+--- !u!114 &4403724498393917305
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,17 +89,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 671479520795708561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b43eec4ef294985aa3da67fdb23f4c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e39821286a0425da747f898826645d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerData:
-    Health: 250
-    Speed: 1
-    Damage: 10
-    Range: 6
-    PlayerType: 1
-    ExperimentAmount: 65
+  _playerType: 1
+  m_weaponData: {fileID: 11400000, guid: 48410aa05ebee234b8a0e098e7eb76a6, type: 2}
   m_progressBarParent: {fileID: 8571510414042658043}
+  m_enemyData: {fileID: 11400000, guid: ce645cccfce879e4aa9cecea7882c1ac, type: 2}
 --- !u!1 &2119270305512515739
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ using VContainer;
 
 namespace Rune.Scripts.UI
 {
-    public class MainUIController : MonoBehaviour, IUIObject
+    public class MainUIController : MonoBehaviour
     {
         [SerializeField] private CardsUIController m_cardsUIController;
         [SerializeField] private Button m_startGameButton;
@@ -15,7 +15,7 @@ namespace Rune.Scripts.UI
         private SceneService _sceneService;
         
         [Inject]
-        private void Consturct(SceneService sceneService)
+        private void Construct(SceneService sceneService)
         {
             _sceneService = sceneService;
         }
@@ -56,9 +56,9 @@ namespace Rune.Scripts.UI
             _canvasGroup.blocksRaycasts = false;
         }
 
-        public void OnButtonClick()
+        private void OnButtonClick()
         {
-            _sceneService.ShowGameScene();
+            _ = _sceneService.ShowGameScene();
             HideUI();
         }
 

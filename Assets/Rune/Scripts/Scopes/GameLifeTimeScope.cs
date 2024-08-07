@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cinemachine;
 using Rune.Scripts.Gameplay.Guns_Related;
+using Rune.Scripts.ScriptableObjects;
 using Rune.Scripts.Services;
 using Rune.Scripts.Spawner;
 using UnityEngine;

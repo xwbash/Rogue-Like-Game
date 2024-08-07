@@ -48,11 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ad6a393f0c4bd7af47c6c6c7d68321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponData:
-    Damage: 0
-    Cooldown: 0
-    BulletSpeed: 0
-    Range: 0
+  weaponData: {fileID: 11400000, guid: 9912ccec637e8b045a27702aa500a62a, type: 2}
   m_bulletStartPoint: {fileID: 157949230749420054}
 --- !u!1 &1378012803100597618
 GameObject:

@@ -6,16 +6,16 @@ namespace Rune.Scripts.Services
     public class EnemyService
     {
         private Transform _playerTransform;
-        private PlayerBase _playerBase;
+        private EntityBase _entityBase;
 
         public void SetPlayerTransform(Transform playerTransform)
         {
             _playerTransform = playerTransform;
         }
         
-        public void SetPlayerBase(PlayerBase playerBase)
+        public void SetPlayerBase(EntityBase entityBase)
         {
-            _playerBase = playerBase;
+            _entityBase = entityBase;
         }
         
         public Transform GetPlayerTransform()
@@ -24,9 +24,9 @@ namespace Rune.Scripts.Services
         }
 
 
-        public PlayerBase GetPlayerBase()
+        public EntityBase GetPlayerBase()
         {
-            return _playerBase;
+            return _entityBase;
         }
     }
 }

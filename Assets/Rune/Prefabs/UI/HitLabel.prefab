@@ -116,7 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96244182665f4dc19e720462fb482981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitDamage: 0
   m_canvasGroup: {fileID: 6187284225726909710}
   m_textLabel: {fileID: 8935575971930164571}
 --- !u!225 &6187284225726909710

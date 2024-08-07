@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Rune.Scripts.Base;
 using Rune.Scripts.Interfaces;
+using Rune.Scripts.ScriptableObjects;
 using Rune.Scripts.Services;
 using UnityEngine;
 using VContainer;
@@ -11,7 +12,7 @@ namespace Rune.Scripts.Spawner
 {
     public class EnemySpawner : MonoBehaviour, ISpawner
     {
-        [SerializeField] private List<GameObject> m_enemyGameObjects = new List<GameObject>();
+        [SerializeField] private List<EntitySpawnData> m_enemyGameObjects = new List<EntitySpawnData>();
 
         
         private Transform _playerTransform;
@@ -26,7 +27,7 @@ namespace Rune.Scripts.Spawner
         {
             foreach (var playerSpawn in m_enemyGameObjects)
             {
-                _poolingServices.Add(poolingFactory.Create(playerSpawn, 10));
+                _poolingServices.Add(poolingFactory.Create(playerSpawn.GameObject, 10));
             }
         }
         
@@ -62,16 +63,16 @@ namespace Rune.Scripts.Spawner
 
             return null;
         }
-        
-        public void RemoveObject(PoolingService poolingService, IPoolableObject enemyObject)
+
+        private void RemoveObject(PoolingService poolingService, IPoolableObject enemyObject)
         {
             _aliveObjects.Remove(enemyObject);
             poolingService.RemoveObject(enemyObject);
         }
 
-        public PlayerBase GetClosestAlly(Vector3 position)
+        public EntityBase GetClosestAlly(Vector3 position)
         {
-            PlayerBase closestEnemy = null;
+            EntityBase closestEnemy = null;
             var minimumDistance = 10000f;
             
             foreach (var aliveObject in _aliveObjects)
@@ -82,7 +83,7 @@ namespace Rune.Scripts.Spawner
                 if (distance < minimumDistance)
                 {
                     minimumDistance = distance;
-                    closestEnemy = (PlayerBase)aliveObject;
+                    closestEnemy = (EntityBase)aliveObject;
                 }
             }
 

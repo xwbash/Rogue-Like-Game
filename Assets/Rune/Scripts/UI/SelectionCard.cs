@@ -26,7 +26,7 @@ namespace Rune.Scripts.UI
         public float ExperimentAmount = -1;
     }
     
-    public class SelectionCard : MonoBehaviour, IUIObject
+    public class SelectionCard : MonoBehaviour
     {
         [SerializeField] private GameObject m_textGameObject;
         [SerializeField] private CardData m_abilitysOnCard = new CardData();

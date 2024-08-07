@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Rune.Scripts.Interfaces;
 using Rune.Scripts.Services;
@@ -9,14 +10,14 @@ using VContainer;
 
 namespace Rune.Scripts.UI
 {
-    public class LostUIController : MonoBehaviour, IUIObject
+    public class LostUIController : MonoBehaviour
     {
         [SerializeField] private Button m_retryButton;
         private CanvasGroup _canvasGroup;
         private SceneService _sceneService;
         
         [Inject]
-        private void Consturct(SceneService sceneService)
+        private void Construct(SceneService sceneService)
         {
             _sceneService = sceneService;
         }
@@ -33,7 +34,7 @@ namespace Rune.Scripts.UI
 
         private void OnClickedRetry()
         {
-            OnButtonClick();
+            _ = OnButtonClick();
         }
 
         private void Start()
@@ -45,7 +46,7 @@ namespace Rune.Scripts.UI
         {
             _canvasGroup.DOFade(1, .5f).OnComplete(() =>
             {
-                _sceneService.UnloadGameScene();
+                _ = _sceneService.UnloadGameScene();
             });
             
             _canvasGroup.interactable = true;
@@ -59,9 +60,9 @@ namespace Rune.Scripts.UI
             _canvasGroup.blocksRaycasts = false;
         }
 
-        public void OnButtonClick()
+        private async UniTask OnButtonClick()
         {
-            _sceneService.ShowGameScene();
+            await _sceneService.ShowGameScene();
             HideUI();
         }
     }

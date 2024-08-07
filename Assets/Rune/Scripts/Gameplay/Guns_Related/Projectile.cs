@@ -2,6 +2,7 @@ using System;
 using Rune.Scripts.Base;
 using Rune.Scripts.Gameplay.Character_Related;
 using Rune.Scripts.Interfaces;
+using Rune.Scripts.ScriptableObjects;
 using Rune.Scripts.Services;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,11 +24,7 @@ namespace Rune.Scripts.Gameplay.Guns_Related
     }
 
     [Serializable]
-    public class ProjectileCreationData
-    {
-        public ProjectileType ProjectileData;
-        public GameObject ProjectileObject;
-    }
+   
     
     public class Projectile : MonoBehaviour, IPoolableObject
     {
@@ -37,11 +34,11 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         private ProjectileData _projectileData;
         private float _timer = 3.0f;
         private int _weaponDamage;
-        private PlayerBase _currentPlayerBase;
+        private EntityBase _currentEntityBase;
         private BulletService _bulletService;
         private GameCycleService _gameCycleService;
         private bool _isGamePaused = false;
-
+        
         [Inject]
         private void Construct(GameCycleService gameCycleService, BulletService bulletService)
         {
@@ -49,9 +46,9 @@ namespace Rune.Scripts.Gameplay.Guns_Related
             _gameCycleService = gameCycleService;
         }
         
-        public void Init(ProjectileData projectileData, int weaponDamage, PlayerBase currentPlayerBase)
+        public void Init(ProjectileData projectileData, int weaponDamage, EntityBase currentEntityBase)
         {
-            _currentPlayerBase = currentPlayerBase;
+            _currentEntityBase = currentEntityBase;
             _projectileData = projectileData;
             transform.position = projectileData.StartPoint;
             _weaponDamage = weaponDamage;
@@ -59,6 +56,7 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         
         private void OnEnable()
         {
+            _isGamePaused = _gameCycleService.IsGamePaused(); // protection for pooling porpuses
             _gameCycleService.OnGamePaused.AddListener(OnGamePaused);
             _gameCycleService.OnGameContinued.AddListener(OnGameContinued);
         }
@@ -76,17 +74,21 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         
         private void OnGamePaused()
         {
-            _isGamePaused = false;
+            _isGamePaused = true;
         }
 
         private void OnGameContinued()
         {
-            _isGamePaused = true;
+            _isGamePaused = false;
         }
 
         private void FixedUpdate()
         {
-            if(_isGamePaused) return;
+            if (_isGamePaused)
+            {
+                _rigidbody.velocity = Vector3.zero;
+                return;
+            }
             
             if (_projectileData == null)
             {
@@ -134,7 +136,7 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         {
             _poolingService.RemoveObject(this);
             _projectileData = null;
-            _currentPlayerBase = null;
+            _currentEntityBase = null;
             _timer = 3.0f;
         }
 
@@ -160,16 +162,16 @@ namespace Rune.Scripts.Gameplay.Guns_Related
 
         private void OnTriggerEnter(Collider other)
         {
-            var playerBase = other.GetComponent<PlayerBase>();
+            var playerBase = other.GetComponent<EntityBase>();
             if (!playerBase)
             {
                 return;
             }
             
             
-            if (playerBase != _currentPlayerBase && playerBase.GetPlayerType() != _currentPlayerBase.GetPlayerType())
+            if (playerBase != _currentEntityBase && playerBase.GetPlayerType() != _currentEntityBase.GetPlayerType())
             {
-                playerBase.HitEnemy(_weaponDamage);
+                playerBase.GetHit(_weaponDamage);
                 RemoveObject();
             }
         }

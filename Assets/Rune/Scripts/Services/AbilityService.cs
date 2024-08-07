@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Reflection;
+using Rune.Scripts.ScriptableObjects;
 using Rune.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Events;
+using VContainer;
 
 namespace Rune.Scripts.Services
 {
@@ -11,21 +13,13 @@ namespace Rune.Scripts.Services
         public UnityEvent<CardData> OnAbilitySelected = new UnityEvent<CardData>();
         
         private System.Random _random = new System.Random();
-        private int _maxAbilityAmount = 3;
-        private float _factor = .8f;
-        private List<byte> _percentages = new List<byte>()
+        private CardBalanceData _cardBalanceData;
+
+        [Inject]
+        private void Construct(CardBalanceData cardBalanceData)
         {
-            30,        // public int Health = -1;
-            20,       // public int Speed = -1;
-            5,       // public float GunSpeed = -1;
-            15,     // public float BulletSpeed = -1;
-            15,    // public int Damage = -1;
-            15,   // public float Range = -1;
-            3,   // public float EnemySpeedDecreasePercentage = -1;
-            3,  // public float EnemyDamageDecreasePercentage = -1;
-            3, // public float EnemyBulletSpeedDecreasePercentage = -1;
-            10,// public int ExperimentAmount = -1;
-        };
+            _cardBalanceData = cardBalanceData;
+        }
         
         public void SetNewAbilityCard(CardData cardData)
         {
@@ -38,78 +32,126 @@ namespace Rune.Scripts.Services
 
             for (int i = 0; i < 3; i++)
             {
-                CardData cardData = new CardData();
-                int abilityAmount = 0;
-                
-                if (_random.Next(0, 100) < _percentages[0] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.Health = (int)(Random.Range(20,100) * _factor); 
-                }
-
-                if (_random.Next(0, 100) < _percentages[1] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.Speed = (Random.Range(0.1f, 1.0f) * _factor); 
-                }
-
-                if (_random.Next(0, 100) < _percentages[2] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.GunSpeed = Random.Range(0.5f, 1.0f) * _factor; 
-                }
-                
-                if (_random.Next(0, 100) < _percentages[3] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.BulletSpeed = Random.Range(2f,10f) * _factor; 
-                }
-
-                if (_random.Next(0, 100) < _percentages[4] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.Damage = (int)(Random.Range(15, 50) * _factor); 
-                }
-                
-                if (_random.Next(0, 100) < _percentages[5] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.Range = Random.Range(1, 5); 
-                }
-                
-                if (_random.Next(0, 100) < _percentages[6] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.EnemyBulletSpeedDecreasePercentage = Random.Range(.7f, .99f); 
-                }
-
-                if (_random.Next(0, 100) < _percentages[7] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.EnemyDamageDecreasePercentage = Random.Range(.7f, .99f); 
-                }
-                
-                if (_random.Next(0, 100) < _percentages[8] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.EnemySpeedDecreasePercentage = Random.Range(.7f, .99f); 
-                }
-                
-                if (_random.Next(0, 100) < _percentages[9] && abilityAmount < _maxAbilityAmount)
-                {
-                    abilityAmount += 1;
-                    cardData.ExperimentAmount = Random.Range(.5f, .10f); 
-                }
-
-                if (abilityAmount <= 0)
-                {
-                    cardData.Health = (int)(Random.Range(20,100) * _factor); 
-                }
-                
-                wholeDeckData.Add(cardData);
+                wholeDeckData.Add(CreateCard());
             }
 
             return wholeDeckData;
+        }
+
+        private CardData CreateCard()
+        {
+            CardData cardData = new CardData();
+            bool isCardEmpty = true;
+            
+            foreach (var cardAdjustmentData in _cardBalanceData.CardAdjustmentData)
+            {
+                switch (cardAdjustmentData.AdjustmentType)
+                {
+                    case AdjustmentType.Damage:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.Damage = (int)Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }
+                    case AdjustmentType.BulletSpeed:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.BulletSpeed = Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }
+                    case AdjustmentType.Experiment:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.ExperimentAmount = Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }
+                    case AdjustmentType.Health:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.Health = (int)Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }                    
+                    case AdjustmentType.Range:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.Range = (int)Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }                   
+                    case AdjustmentType.Speed:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.Speed = Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }                    
+                    case AdjustmentType.GunSpeed:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.GunSpeed = Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }
+                    case AdjustmentType.EnemyDamage:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.EnemyDamageDecreasePercentage = Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }
+                    case AdjustmentType.EnemySpeed:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.EnemySpeedDecreasePercentage = Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }
+                    case AdjustmentType.EnemyBulletSpeed:
+                    {
+                        if (CalculatePercentage(cardAdjustmentData.Percentage))
+                        {
+                            isCardEmpty = false;
+                            cardData.EnemyBulletSpeedDecreasePercentage = Random.Range(cardAdjustmentData.Value.x, cardAdjustmentData.Value.y);
+                        }
+                        break;
+                    }
+                }
+            }
+
+
+            if (isCardEmpty)
+            {
+                cardData.Health = Random.Range(1, 50);
+            }
+            
+            return cardData;
+        }
+
+        private bool CalculatePercentage(int percentage)
+        {
+            return _random.Next(0, 100) < percentage;
         }
 
         public List<string> GetDescription(CardData cardData)

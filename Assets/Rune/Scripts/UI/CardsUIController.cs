@@ -9,7 +9,7 @@ using VContainer.Unity;
 
 namespace Rune.Scripts.UI
 {
-    public class CardsUIController : MonoBehaviour, IUIObject
+    public class CardsUIController : MonoBehaviour
     {
         [SerializeField] private Transform m_startTransform;
         [SerializeField] private Transform m_endTransform;
@@ -42,7 +42,7 @@ namespace Rune.Scripts.UI
 
                 if (!selectionCard)
                 {
-                    throw new ArgumentException("Kartlarda selection card yok");
+                    throw new ArgumentException("There is no selection card in cards.");
                 }
                 
                 selectionCard.Init(m_startTransform, m_endTransform, OnCardSelected);
@@ -52,7 +52,7 @@ namespace Rune.Scripts.UI
             }
         }
 
-        public void OnCardSelected()
+        private void OnCardSelected()
         {
             HideUI();
         }

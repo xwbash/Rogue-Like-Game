@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5061153408302918615}
   - component: {fileID: -5613142617854945295}
   - component: {fileID: 3680368784753778964}
-  - component: {fileID: -8970762346532869940}
+  - component: {fileID: 7714773155105469578}
   m_Layer: 0
   m_Name: QuickEnemy
   m_TagString: Untagged
@@ -80,7 +80,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.0069432, z: 1}
   m_Center: {x: 0, y: 1.0391049, z: 0}
---- !u!114 &-8970762346532869940
+--- !u!114 &7714773155105469578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,17 +89,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 671479520795708561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b43eec4ef294985aa3da67fdb23f4c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e39821286a0425da747f898826645d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerData:
-    Health: 50
-    Speed: 5
-    Damage: 5
-    Range: 2
-    PlayerType: 1
-    ExperimentAmount: 50
+  _playerType: 1
+  m_weaponData: {fileID: 11400000, guid: 48410aa05ebee234b8a0e098e7eb76a6, type: 2}
   m_progressBarParent: {fileID: 8637279801976807587}
+  m_enemyData: {fileID: 11400000, guid: d5e13c61dbc10a54499cc77a0402cf57, type: 2}
 --- !u!1 &2914054097919377547
 GameObject:
   m_ObjectHideFlags: 0

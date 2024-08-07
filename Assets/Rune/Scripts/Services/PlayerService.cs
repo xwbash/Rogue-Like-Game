@@ -30,10 +30,10 @@ namespace Rune.Scripts.Services
         
         public void Start()
         {
-            SpawnPlayer();
+            _ = SpawnPlayer();
         }
 
-        public async UniTask SpawnPlayer()
+        private async UniTask SpawnPlayer()
         {
             await UniTask.WaitUntil(() => _isPlayerCanSpawnable);
             _playerSpawner.Spawn();

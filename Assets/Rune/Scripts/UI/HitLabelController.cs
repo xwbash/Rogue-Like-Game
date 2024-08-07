@@ -9,8 +9,6 @@ namespace Rune.Scripts.UI
 {
     public class HitLabelController : MonoBehaviour, IPoolableObject
     {
-        public int HitDamage = 0;
-        
         [SerializeField] private CanvasGroup m_canvasGroup;
         [SerializeField] private TMP_Text m_textLabel;
         

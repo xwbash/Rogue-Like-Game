@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Rune.Scripts.Gameplay.Guns_Related;
 using Rune.Scripts.Interfaces;
+using Rune.Scripts.ScriptableObjects;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;

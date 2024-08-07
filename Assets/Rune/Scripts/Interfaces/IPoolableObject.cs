@@ -10,7 +10,6 @@ namespace Rune.Scripts.Interfaces
         public void SetObjectActive(bool isActive);
         
         public void OnObjectSpawned();
-        public void RemoveObject();
         public void SetSpawnPoint(Vector3 spawnPoint);
 
         public PoolingService GetPoolingService();

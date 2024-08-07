@@ -1,6 +1,5 @@
 using Rune.Scripts.Base;
-using Rune.Scripts.Data;
-using Rune.Scripts.Gameplay.Character_Related;
+using Rune.Scripts.ScriptableObjects;
 using Rune.Scripts.Services;
 using Rune.Scripts.UI;
 using UnityEngine;
@@ -14,8 +13,8 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         private CommonPlayerService _commonPlayerService;
         private float _shootingCooldown;
         private BulletService _bulletService;
-        private PlayerBase _closestEnemy = null;
-        private PlayerBase _currentPlayerBase;
+        private EntityBase _closestEnemy = null;
+        private EntityBase _currentEntityBase;
         private GameCycleService _gameCycleService;
         private bool _isGamePaused = false;
         private AbilityService _abilityService;
@@ -29,10 +28,10 @@ namespace Rune.Scripts.Gameplay.Guns_Related
             _commonPlayerService = commonPlayerService;
         }
         
-        public override void Init(WeaponData weaponData, PlayerBase player)
+        public override void Init(WeaponData weaponData, EntityBase entity)
         {
-            _weaponData = weaponData;
-            _currentPlayerBase = player;
+            base.weaponData = weaponData;
+            _currentEntityBase = entity;
         }
         
         private void OnEnable()
@@ -53,22 +52,22 @@ namespace Rune.Scripts.Gameplay.Guns_Related
         {
             if (cardData.BulletSpeed > 0)
             {
-                _weaponData.BulletSpeed += cardData.BulletSpeed;
+                weaponData.BulletSpeed += cardData.BulletSpeed;
             }
 
             if (cardData.GunSpeed > 0)
             {
-                _weaponData.Cooldown += cardData.GunSpeed;
+                weaponData.Cooldown += cardData.GunSpeed;
             }
 
             if (cardData.Damage > 0)
             {
-                _weaponData.Damage += cardData.Damage;
+                weaponData.Damage += cardData.Damage;
             }
             
             if (cardData.Range > 0)
             {
-                _weaponData.Range += cardData.Range;
+                weaponData.Range += cardData.Range;
             }
         }
 
@@ -97,34 +96,24 @@ namespace Rune.Scripts.Gameplay.Guns_Related
                 var closestEnemyDistance = Vector3.Distance(_closestEnemy.transform.position, transform.position);
                 Debug.Log("distance between them " + closestEnemyDistance);
             
-                if (closestEnemyDistance < _weaponData.Range)
+                if (closestEnemyDistance < weaponData.Range)
                 {
                     Shoot(m_bulletStartPoint.position, _closestEnemy.transform.position);
-                    _shootingCooldown = _weaponData.Cooldown;
+                    _shootingCooldown = weaponData.Cooldown;
                 }    
             }
         }
 
-        public override void Shoot(Vector3 startPosition, Vector3 targetPosition)
+        public void Shoot(Vector3 startPosition, Vector3 targetPosition)
         {
             ProjectileData projectileData = new ProjectileData();
-            projectileData.Speed = _weaponData.BulletSpeed;
+            projectileData.Speed = weaponData.BulletSpeed;
             projectileData.StartPoint = startPosition;
             projectileData.EndPoint = new Vector3(targetPosition.x, 1, targetPosition.z);
 
 
             var projectile = (Projectile)_bulletService.GetBullet(ProjectileType.Bullet);
-            projectile.Init(projectileData, _weaponData.Damage, _currentPlayerBase);
-        }
-
-        private void OnBulletHit(PlayerBase enemy)
-        {
-            enemy.HitEnemy(_weaponData.Damage);
-        }
-
-        public override void RemoveBullet(Projectile projectile)
-        {
-            _bulletService.RemoveObject(projectile, ProjectileType.Bullet);
+            projectile.Init(projectileData, weaponData.Damage, _currentEntityBase);
         }
     }
 }

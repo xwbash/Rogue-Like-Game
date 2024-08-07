@@ -1,3 +1,4 @@
+using Rune.Scripts.ScriptableObjects;
 using Rune.Scripts.Services;
 using Rune.Scripts.UI;
 using UnityEngine;
@@ -8,10 +9,13 @@ namespace Rune.Scripts.Scopes
 {
     public class MenuLifeTimeScope : LifetimeScope
     {
+        [SerializeField] private CardBalanceData m_cardBalanceData;
         [SerializeField] private LostUIController m_lostUIController;
         [SerializeField] private MainUIController m_mainUIController;
         protected override void Configure(IContainerBuilder builder)
         {
+
+            builder.RegisterInstance(m_cardBalanceData);
             builder.RegisterComponent(m_lostUIController);
             builder.RegisterComponent(m_mainUIController);
             

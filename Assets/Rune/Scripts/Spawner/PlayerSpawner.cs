@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Rune.Scripts.Base;
 using Rune.Scripts.Interfaces;
+using Rune.Scripts.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
 using VContainer;
@@ -11,10 +12,10 @@ namespace Rune.Scripts.Spawner
     public class PlayerSpawner : MonoBehaviour, ISpawner
     {
         public UnityEvent OnPlayerSpawned = new UnityEvent();        
-        [SerializeField] private PlayersSpawnData m_playerGameObject;
+        [SerializeField] private EntitySpawnData m_playerGameObject;
 
         private IObjectResolver _objectResolver;
-        private PlayerBase _mainPlayerBase;
+        private EntityBase _mainEntityBase;
         private Transform _playerTransform;
 
         [Inject]
@@ -28,7 +29,7 @@ namespace Rune.Scripts.Spawner
             var spawnedObject = _objectResolver.Instantiate(m_playerGameObject.GameObject);
             _playerTransform = spawnedObject.transform;
             spawnedObject.transform.position = Vector3.zero;
-            _mainPlayerBase = spawnedObject.GetComponent<PlayerBase>();
+            _mainEntityBase = spawnedObject.GetComponent<EntityBase>();
             OnPlayerSpawned.Invoke();
         }
 
@@ -39,9 +40,9 @@ namespace Rune.Scripts.Spawner
 
         public Transform GetTransform() => _playerTransform;
 
-        public PlayerBase GetPlayerBase()
+        public EntityBase GetPlayerBase()
         {
-            return _mainPlayerBase;
+            return _mainEntityBase;
         }
     }
 }

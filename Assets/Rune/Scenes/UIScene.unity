@@ -218,8 +218,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1476044209}
-  - {fileID: 1098183324}
-  - {fileID: 1266110976}
+  - {fileID: 562190861}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -277,8 +276,46 @@ MonoBehaviour:
   autoInjectGameObjects:
   - {fileID: 1244607737010625737}
   - {fileID: 2014825141}
+  m_cardBalanceData: {fileID: 11400000, guid: fde53b6c9114dce48becba9c91d576d0, type: 2}
   m_lostUIController: {fileID: 2684203810605722463}
   m_mainUIController: {fileID: 1266110977}
+--- !u!1 &562190860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 562190861}
+  m_Layer: 5
+  m_Name: MenuUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &562190861
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562190860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1098183324}
+  - {fileID: 1266110976}
+  m_Father: {fileID: 176986989}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &779604852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2329259730964858626, guid: cbfd81249b1d711418571b1c6c0debd2, type: 3}
@@ -650,7 +687,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 176986989}
+    m_TransformParent: {fileID: 562190861}
     m_Modifications:
     - target: {fileID: 239879620004487043, guid: cd496669a684d784fb11be93ba5d5959, type: 3}
       propertyPath: m_Pivot.x
@@ -702,15 +739,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 239879620004487043, guid: cd496669a684d784fb11be93ba5d5959, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 239879620004487043, guid: cd496669a684d784fb11be93ba5d5959, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 239879620004487043, guid: cd496669a684d784fb11be93ba5d5959, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 239879620004487043, guid: cd496669a684d784fb11be93ba5d5959, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -878,7 +915,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 176986989}
+    m_TransformParent: {fileID: 562190861}
     m_Modifications:
     - target: {fileID: 508545754958736780, guid: 6ca3199617e415942b49e9ad908c4a60, type: 3}
       propertyPath: m_cardsUIController
@@ -942,15 +979,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5541464384579546842, guid: 6ca3199617e415942b49e9ad908c4a60, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5541464384579546842, guid: 6ca3199617e415942b49e9ad908c4a60, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5541464384579546842, guid: 6ca3199617e415942b49e9ad908c4a60, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5541464384579546842, guid: 6ca3199617e415942b49e9ad908c4a60, type: 3}
       propertyPath: m_AnchoredPosition.x

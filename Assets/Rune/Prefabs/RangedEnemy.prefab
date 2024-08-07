@@ -50,14 +50,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859fa12112af414fa2d17cc335190f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerData:
-    Health: 50
-    Speed: 2
-    Damage: 10
-    Range: 10
-    PlayerType: 1
-    ExperimentAmount: 50
+  _playerType: 1
+  m_weaponData: {fileID: 11400000, guid: 24fac5364b9a3da4c9f398e154ce1dc8, type: 2}
   m_progressBarParent: {fileID: 6510409451699219081}
+  m_enemyData: {fileID: 11400000, guid: 9a80536183b7c6c4c929ce9d174becaa, type: 2}
   m_gunParentTransform: {fileID: 6866270929517826121}
   m_gunObject: {fileID: 4908643469378468415, guid: 0740be7b84cef1345878121aee872ead, type: 3}
 --- !u!195 &5092392867437479272

@@ -335,7 +335,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_particleSystem: {fileID: 6909214319206561589}
-  m_playerSpeed: 10
   m_playerRotationSpeed: 8
   m_rotationTransform: {fileID: 7510042358053314585}
 --- !u!54 &2998995240846119737
@@ -377,13 +376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c7fe2b483f43b28a431a852b3527e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerData:
-    Health: 100
-    Speed: 5
-    Damage: 10
-    Range: 10
-    PlayerType: 0
-    ExperimentAmount: 0
+  _playerType: 0
+  m_playerData: {fileID: 11400000, guid: 41c0116606153cc48be694246cbb750e, type: 2}
+  m_weaponData: {fileID: 11400000, guid: 9912ccec637e8b045a27702aa500a62a, type: 2}
   m_progressBarParent: {fileID: 5503748757285611010}
   m_gunParentTransform: {fileID: 7810181620296113635}
   m_gunObject: {fileID: 611578005528334187, guid: 34a319e7b0a0d994ab10bb406e572cfc, type: 3}
