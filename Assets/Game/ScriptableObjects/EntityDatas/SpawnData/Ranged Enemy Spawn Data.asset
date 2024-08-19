@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b485c8843d74302a8ae13b13217da16, type: 3}
+  m_Name: Ranged Enemy Spawn Data
+  m_EditorClassIdentifier: 
+  PlayerData: {fileID: 11400000, guid: 74206448b790f894695e88d9f57f2553, type: 2}
+  GameObject: {fileID: 671479520795708561, guid: 7e1d182c65cce8b48a73870d5ed7ce68, type: 3}
